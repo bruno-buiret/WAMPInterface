@@ -1,0 +1,16 @@
+# Symfony 4
+.env
+/public/bundles/
+/var/
+
+# Composer
+/composer.phar
+/vendor/
+
+# NodeJS
+/node_modules/
+/assets/build/
+/public/assets/
+
+# JetBrains
+/.idea/

@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block _title %}
+    {{ title }} - {{ parent() }}
+{% endblock %}
+
+{% block _header %}
+    <h1>
+        Hôtes virtuels
+        <small>Apache</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            Apache
+        </li>
+        <li>
+            <a href="{{ path('apache_virtual_hosts_list') }}">
+                Hôtes virtuels
+            </a>
+        </li>
+        <li class="active">
+            <a href="{{ form.vars.action }}">
+                {{ action }}
+            </a>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block _body %}
+    <div class="box box-solid">
+        <div class="box-body">
+            {{ form_start(form) }}
+            {{ form_rest(form) }}
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-success">
+                        {{ action }}
+                    </button>
+                    <button type="reset" class="btn btn-warning">
+                        {{ reset }}
+                    </button>
+                    <a href="{{ path('apache_virtual_hosts_list') }}" class="btn btn-default">
+                        {{ 'virtual_hosts.form.button_back'|trans({}, 'apache') }}
+                    </a>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,98 @@
+/* Layout */
+.main-header .sidebar-toggle::before {
+  font-family: Font Awesome\ 5 Free;
+  font-weight: bold;
+}
+
+.sidebar-menu > li > a span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-menu > li > a > .fas,
+.treeview-menu > li > a > .fas {
+  width: 20px;
+}
+
+/* Lists */
+.list-columns {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // Sizes
+  &.list-md li {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  &.list-lg li {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  &.with-icon li {
+    > .fas:first-child,
+    > .fab:first-child {
+      margin-right: 5px;
+    }
+  }
+}
+
+/* Tables */
+.table {
+  thead {
+
+  }
+
+  tbody {
+    .column-actions {
+      text-align: center;
+
+      a + a {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+/* Forms */
+form {
+  label.required::after {
+    content: '\00a0*';
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+/* PHP */
+.php-configuration {
+  .table {
+    h1 {
+      margin: 10px 0;
+    }
+
+    img {
+      float: right;
+    }
+
+    .e {
+      font-weight: bold;
+    }
+  }
+}
+
+.php-extensions {
+  .tab-pane {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}
+

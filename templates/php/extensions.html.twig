@@ -1,0 +1,174 @@
+{% extends 'layout.html.twig' %}
+
+{% block _title %}
+    {{ 'extensions.title'|trans({}, 'php') }} - {{ parent() }}
+{% endblock %}
+
+{% block _header %}
+    <h1>
+        Extensions
+        <small>PHP</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            PHP
+        </li>
+        <li class="active">
+            <a href="{{ path('php_extensions') }}">
+                Extensions
+            </a>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block _body %}
+    {% if extensions|length > 0 %}
+        <div class="box box-solid">
+            <div class="box-body">
+                <ul class="list-columns with-icon">
+                    {% for extension in extensions %}
+                        <li>
+                            <i class="fas fa-cube"></i>{#--#}
+                            <a href="#extension-{{ extension.slug }}">{{ extension.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+    {% for extension in extensions %}
+        <h2 id="extension-{{ extension.slug }}">
+            {{ extension.name }}
+            {% if extension.version is not null %}
+                <small>({{ extension.version }})</small>
+            {% endif %}
+        </h2>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a
+                        href="#{{ extension.slug }}-settings"
+                        data-toggle="tab"
+                        {% if 0 == extension.settings|length %}
+                            class="text-muted"
+                        {% endif %}
+                    >
+                        Configuration
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="#{{ extension.slug }}-functions"
+                        data-toggle="tab"
+                        {% if 0 == extension.functions|length %}
+                            class="text-muted"
+                        {% endif %}
+                    >
+                        Fonctions
+                        {% if extension.functions|length > 0 %}
+                            ({{ extension.functions|length }})
+                        {% endif %}
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="#{{ extension.slug }}-classes"
+                        data-toggle="tab"
+                        {% if 0 == extension.classes|length %}
+                            class="text-muted"
+                        {% endif %}
+                    >
+                        Classes
+                        {% if extension.classes|length > 0 %}
+                            ({{ extension.classes|length }})
+                        {% endif %}
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="#{{ extension.slug }}-constants"
+                        data-toggle="tab"
+                        {% if 0 == extension.constants|length %}
+                            class="text-muted"
+                        {% endif %}
+                    >
+                        Constantes
+                        {% if extension.constants|length > 0 %}
+                            ({{ extension.constants|length }})
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="pull-right">
+                    {# Documentation if available #}
+                    <a href="#" class="text-muted">
+                        <i class="fa fa-gear"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active{% if extension.settings|length > 0 %} table-responsive{% endif %}" id="{{ extension.slug }}-settings">
+                    {% if extension.settings|length > 0 %}
+                        <table class="table table-striped table-hover">
+                            <tbody>
+                                {% for key, value in extension.settings %}
+                                    <tr>
+                                        <th>{{ key }}</th>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Cette extension ne dispose d'aucune configuration.</p>
+                    {% endif %}
+                </div>
+                <div class="tab-pane" id="{{ extension.slug }}-functions">
+                    {% if extension.functions|length > 0 %}
+                        <ul class="list-columns list-md">
+                            {% for name, url in extension.functions %}
+                                <li>
+                                    <a href="{{ url }}">{{ name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Cette extension n'a déclaré aucune fonction.</p>
+                    {% endif %}
+                </div>
+                <div class="tab-pane" id="{{ extension.slug }}-classes">
+                    {% if extension.classes|length > 0 %}
+                        <ul class="list-columns list-md">
+                            {% for name, url in extension.classes %}
+                                <li>
+                                    <a href="{{ url }}">{{ name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Cette extension n'a déclaré aucune classe.</p>
+                    {% endif %}
+                </div>
+                <div class="tab-pane" id="{{ extension.slug }}-constants">
+                    {% if extension.constants|length > 0 %}
+                        <table class="table table-striped table-hover">
+                            <tbody>
+                                {% for key, value in extension.constants %}
+                                    <tr>
+                                        <th>{{ key }}</th>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Cette extension n'a déclaré aucune constante.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="callout callout-info">
+            <p>Aucune extension PHP ne semble avoir été chargée.</p>
+        </div>
+    {% endfor %}
+{% endblock %}

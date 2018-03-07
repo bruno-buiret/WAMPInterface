@@ -1,0 +1,43 @@
+modules:
+  title: Modules - Apache
+virtual_hosts:
+  list:
+    title: Hôtes virtuels - Apache
+    header_name: Nom
+    header_description: Description
+    header_host: Domaine
+    header_port: Port
+    header_ssl: SSL
+    header_url: URL
+    header_menu: Menu
+    no_virtual_hosts_yet: 'Aucun hôte virtuel n''a été créé pour le moment.'
+    button_add: Créer
+    button_synchronize: Synchroniser
+  form:
+    label_name: Nom
+    label_description: Description
+    label_host: Domaine
+    label_port: Port
+    label_ssl: SSL
+    label_hidden: 'Caché dans le menu'
+    label_no: Non
+    label_yes: Oui
+    button_back: Retour
+  add:
+    title: Création - Hôtes virtuels - Apache
+    button_add: Créer
+    button_reset: 'Tout effacer'
+  edit:
+    title: Édition - Hôtes virtuels - Apache
+    button_add: Éditer
+    button_reset: Réinitialiser
+  delete:
+aliases:
+  list:
+    title: Aliases - Apache
+  form:
+  add:
+    title: Création - Aliases - Apache
+  edit:
+    title: Édition - Aliases - Apache
+  delete:

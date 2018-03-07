@@ -1,0 +1,100 @@
+{% extends 'layout.html.twig' %}
+
+{% block _header %}
+    <h1>Tableau de bord</h1>
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="{{ path('common_dashboard') }}">
+                Tableau de bord
+            </a>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block _body %}
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua">
+                    <i class="fas fa-cogs"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">
+                        WAMP Server
+                    </span>
+                    <span class="info-box-number">
+                        {{- wampServer.version -}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua">
+                    <i class="fas fa-server"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">
+                        Apache
+                    </span>
+                    <span class="info-box-number">
+                        {{- apache.version -}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua">
+                    <i class="fas fa-code"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">
+                        PHP
+                    </span>
+                    <span class="info-box-number">
+                        {{- php.version -}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua">
+                    <i class="fas fa-database"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">
+                        MySQL
+                    </span>
+                    <span class="info-box-number">
+                        {{- mysql.version -}}
+                    </span>
+                    <span class="progress-description">
+                        {{- mysql.port -}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua">
+                    <i class="fas fa-database"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">
+                        MariaDB
+                    </span>
+                    <span class="info-box-number">
+                        {{- mariaDb.version -}}
+                    </span>
+                    <span class="progress-description">
+                        {{- mariaDb.port -}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

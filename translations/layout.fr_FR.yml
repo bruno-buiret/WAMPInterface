@@ -1,0 +1,9 @@
+logo.sm_1: W
+logo.sm_2: S
+logo.lg_1: WAMP
+logo.lg_2: Server
+menu:
+  header:
+    aliases: Aliases
+    virtual_hosts: Hôtes virtuels
+    server: Serveur

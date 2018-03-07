@@ -1,0 +1,8 @@
+app:
+  interface:
+    theme: 'black-light'
+  wampserver:
+    paths:
+      configuration: '%env(CONFIGURATION_PATH)%'
+      virtual_hosts: '%env(VIRTUAL_HOSTS_FOLDER)%'
+      aliases: '%env(ALIASES_FOLDER)%'

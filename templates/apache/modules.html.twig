@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+
+{% block _title %}
+    {{ 'modules.title'|trans({}, 'apache') }} - {{ parent() }}
+{% endblock %}
+
+{% block _header %}
+    <h1>
+        Modules
+        <small>Apache</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            Apache
+        </li>
+        <li class="active">
+            <a href="{{ path('apache_modules') }}">
+                Modules
+            </a>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block _body %}
+    <div class="box box-solid">
+        <div class="box-body">
+            {% if modules|length > 0 %}
+                <ul class="list-columns with-icon">
+                    {% for module, url in modules %}
+                        <li>
+                            <i class="fas fa-cube"></i>{#--#}
+                            <a href="{{ url }}">
+                                {{- module -}}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                Il n'existe aucun module Apache.
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

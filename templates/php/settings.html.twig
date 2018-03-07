@@ -1,0 +1,26 @@
+{% extends 'layout.html.twig' %}
+
+{% block _title %}
+    {{ 'settings.title'|trans({}, 'php') }} - {{ parent() }}
+{% endblock %}
+
+{% block _header %}
+    <h1>
+        Configuration
+        <small>PHP</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            PHP
+        </li>
+        <li class="active">
+            <a href="{{ path('php_settings') }}">
+                Configuration
+            </a>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block _body %}
+    {{ settings|raw }}
+{% endblock %}

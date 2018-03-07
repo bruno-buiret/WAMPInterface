@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <title>{% block _title %}WAMP Server{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.2/css/AdminLTE.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.2/css/alt/AdminLTE-select2.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.2/css/skins/skin-{{ _theme|default('black') }}.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/stylesheets/wamp-interface.min.css') }}" />
+        {% block _stylesheets %}{% endblock %}
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    {% set classes = ['hold-transition', 'skin-black', 'sidebar-mini']|merge(_classes|default([])) %}
+    <body class="{{ classes|join(' ') }}">
+        <div class="wrapper">
+            <header class="main-header">
+                <a href="{{ path('common_dashboard') }}" class="logo">
+                    <span class="logo-mini">
+                        <b>{{ 'logo.sm_1'|trans({}, 'layout') }}</b>{{ 'logo.sm_2'|trans({}, 'layout') }}
+                    </span>
+                    <span class="logo-lg">
+                        <b>{{ 'logo.lg_1'|trans({}, 'layout') }}</b>{{ 'logo.lg_2'|trans({}, 'layout') }}
+                    </span>
+                </a>
+                <nav class="navbar navbar-static-top">
+                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                        <span class="sr-only">Afficher / Cacher la navigation</span>
+                    </a>
+                </nav>
+            </header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    {{ render(controller('App\\Controller\\FragmentsController::menu')) }}
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                {%- if block('_header') is defined -%}
+                    <section class="content-header">
+                        {{- block('_header') -}}
+                    </section>
+                {%- endif -%}
+                <section class="content container-fluid">
+                    {%- for type, messages in app.flashes -%}
+                        {%- for message in messages -%}
+                            <div class="alert alert-dismissible alert-{{ type }}">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                    ×
+                                </button>
+                                {{ message }}
+                            </div>
+                        {%- endfor -%}
+                    {% endfor %}
+                    {%- block _body -%}{%- endblock -%}
+                </section>
+            </div>
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 1.0.0
+                </div>
+                <strong>OnlineStuff</strong>
+            </footer>
+            <aside class="control-sidebar control-sidebar-dark">
+
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.2/js/adminlte.min.js"></script>
+        {% block _scripts %}{% endblock %}
+    </body>
+</html>

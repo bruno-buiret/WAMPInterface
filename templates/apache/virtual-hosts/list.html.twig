@@ -84,20 +84,20 @@
                                 </a>
                             </td>
                             <td class="text-center">
-                                <i class="fa fa-{{ virtualHost.ssl ? 'check' : 'times' }}"></i>
+                                <i class="fas fa-{{ virtualHost.ssl ? 'check' : 'times' }}"></i>
                             </td>
                             <td class="text-center">
                                 <a href="{{ path('apache_virtual_hosts_toggle_hidden', {id: virtualHost.id}) }}" data-action="toggle-hidden">
-                                    <i class="fa fa-{{ virtualHost.hidden ? 'eye-slash' : 'eye' }}"></i>
+                                    <i class="fas fa-{{ virtualHost.hidden ? 'eye-slash' : 'eye' }}"></i>
                                 </a>
                             </td>
                             <td class="column-actions">
                                 {%- spaceless -%}
                                     <a href="{{ path('apache_virtual_hosts_edit', {id: virtualHost.id}) }}">
-                                        <i class="fa fa-pencil"></i>
+                                        <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <a href="{{ path('apache_aliases_delete', {id: virtualHost.id}) }}">
-                                        <i class="fa fa-trash"></i>
+                                    <a href="{{ path('apache_virtual_hosts_delete', {id: virtualHost.id}) }}">
+                                        <i class="fas fa-trash"></i>
                                     </a>
                                 {%- endspaceless -%}
                             </td>

@@ -115,7 +115,7 @@ class ApacheController extends Controller
             $entityManager->persist($virtualHost);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Le nouvel hôte virtuel "'.$virtualHost->getName().'" a été créé."');
+            $this->addFlash('success', 'Le nouvel hôte virtuel "'.$virtualHost->getName().'" a été créé.');
 
             return $this->redirectToRoute('apache_virtual_hosts_list');
         }
@@ -174,7 +174,7 @@ class ApacheController extends Controller
             $entityManager->persist($virtualHost);
             $entityManager->flush();
 
-            $this->addFlash('success', 'L\'hôte virtuel "'.$virtualHost->getName().'" a été édité."');
+            $this->addFlash('success', 'L\'hôte virtuel "'.$virtualHost->getName().'" a été édité.');
 
             return $this->redirectToRoute('apache_virtual_hosts_list');
         }
@@ -199,7 +199,27 @@ class ApacheController extends Controller
      */
     public function deleteVirtualHost(int $id): Response
     {
+        // Initialize vars
+        /** @var \App\Repository\VirtualHostRepository $repository */
+        $repository = $this->getDoctrine()->getRepository(VirtualHost::class);
+        /** @var \App\Entity\VirtualHost $virtualHost */
+        $virtualHost = $repository->findOneBy(['id' => $id]);
 
+        if(null === $virtualHost)
+        {
+            throw $this->createNotFoundException(sprintf(
+                'No virtual host found for id #%u.',
+                $id
+            ));
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($virtualHost);
+        $manager->flush();
+
+        $this->addFlash('success', 'L\'hôte virtuel "'.$virtualHost->getName().'" a été supprimé.');
+
+        return $this->redirectToRoute('apache_virtual_hosts_list');
     }
 
     /**
@@ -246,8 +266,19 @@ class ApacheController extends Controller
      */
     public function aliasesList(Request $request): Response
     {
+        $paginationTools = new PaginationTools(
+            $request->query->getInt('page', 1),
+            0
+        );
+
         return $this->render(
-            'apache/aliases/list.html.twig'
+            'apache/aliases/list.html.twig',
+            [
+                'aliases'     => [],
+                'total'       => $paginationTools->getItemsNumber(),
+                'currentPage' => $paginationTools->getCurrentPage(),
+                'pagesNumber' => $paginationTools->getPagesNumber(),
+            ]
         );
     }
 
@@ -260,7 +291,6 @@ class ApacheController extends Controller
      */
     public function addAlias(Request $request): Response
     {
-
     }
 
     /**
@@ -273,7 +303,6 @@ class ApacheController extends Controller
      */
     public function editAlias(Request $request, int $id): Response
     {
-
     }
 
     /**
@@ -285,7 +314,6 @@ class ApacheController extends Controller
      */
     public function deleteAlias(int $id): Response
     {
-
     }
 
     /**
@@ -297,6 +325,5 @@ class ApacheController extends Controller
      */
     public function toggleAliasHidden(int $id): Response
     {
-
     }
 }

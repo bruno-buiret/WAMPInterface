@@ -37,18 +37,20 @@ class AppExtension extends AbstractExtension
      * @param \Symfony\Component\Translation\TranslatorInterface $translator A translator.
      * @param string $previousText The key for the accessibility text for the previous page.
      * @param string $nextText The key for the accessibility text for the next page.
+     * @param string $translationDomain
      */
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         TranslatorInterface $translator,
-        string $previousText = '',
-        string $nextText = ''
+        string $previousText = 'pagination.previous',
+        string $nextText = 'pagination.next',
+        string $translationDomain = 'layout'
     )
     {
         // Initialize properties
         $this->urlGenerator = $urlGenerator;
-        $this->previousText = $translator->trans($previousText, [], '');
-        $this->nextText = $translator->trans($nextText, [], '');
+        $this->previousText = $translator->trans($previousText, [], $translationDomain);
+        $this->nextText = $translator->trans($nextText, [], $translationDomain);
     }
 
     /**

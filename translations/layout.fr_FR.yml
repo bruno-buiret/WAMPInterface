@@ -7,3 +7,6 @@ menu:
     aliases: Aliases
     virtual_hosts: Hôtes virtuels
     server: Serveur
+pagination:
+  previous: Précédent
+  next: Suivant

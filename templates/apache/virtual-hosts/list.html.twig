@@ -22,15 +22,15 @@
 {% endblock %}
 
 {% block _body %}
-    <div class="">
+    <div class="table-header">
         <a href="{{ path('apache_virtual_hosts_add') }}" class="btn btn-primary">
-            {{ 'virtual_hosts.list.button_add'|trans({}, 'apache') }}
+            {{- 'virtual_hosts.list.button_add'|trans({}, 'apache') -}}
         </a>
         <button type="button" class="btn btn-primary">
-            {{ 'virtual_hosts.list.button_synchronize'|trans({}, 'apache') }}
+            {{- 'virtual_hosts.list.button_synchronize'|trans({}, 'apache') -}}
         </button>
         <span>
-
+            {{- 'virtual_hosts.list.virtual_hosts_number'|transchoice(total, {}, 'apache') -}}
         </span>
     </div>
     <div class="box box-solid">
@@ -69,8 +69,7 @@
                                 {{ virtualHost.name }}
                             </td>
                             <td>
-                                {% set description = virtualHost.description %}
-                                {{ description|length > 100 ? description|slice(0, 100) ~ '...' : description }}
+                                {{ virtualHost.description|truncate(100) }}
                             </td>
                             <td>
                                 {{ virtualHost.host }}
@@ -104,7 +103,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="text-center">
+                            <td colspan="8" class="text-center">
                                 {{ 'virtual_hosts.list.no_virtual_hosts_yet'|trans({}, 'apache') }}
                             </td>
                         </tr>

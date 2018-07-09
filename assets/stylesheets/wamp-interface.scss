@@ -44,6 +44,16 @@
   }
 }
 
+.table-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+
+  * + * {
+    margin-left: 5px;
+  }
+}
+
 /* Tables */
 .table {
   thead {

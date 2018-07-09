@@ -10,7 +10,8 @@ virtual_hosts:
     header_ssl: SSL
     header_url: URL
     header_menu: Menu
-    no_virtual_hosts_yet: 'Aucun hôte virtuel n''a été créé pour le moment.'
+    no_virtual_hosts_yet: Aucun hôte virtuel n''a été créé pour le moment.
+    virtual_hosts_number: '{0} Aucun hôte virtual | {1} %count% hôte virtuel | ]1,Inf[ %count% hôtes virtuels'
     button_add: Créer
     button_synchronize: Synchroniser
   form:
@@ -19,14 +20,14 @@ virtual_hosts:
     label_host: Domaine
     label_port: Port
     label_ssl: SSL
-    label_hidden: 'Caché dans le menu'
+    label_hidden: Caché dans le menu
     label_no: Non
     label_yes: Oui
     button_back: Retour
   add:
     title: Création - Hôtes virtuels - Apache
     button_add: Créer
-    button_reset: 'Tout effacer'
+    button_reset: Tout effacer
   edit:
     title: Édition - Hôtes virtuels - Apache
     button_add: Éditer
@@ -35,6 +36,14 @@ virtual_hosts:
 aliases:
   list:
     title: Aliases - Apache
+    header_name: Nom
+    header_description: Description
+    header_url: URL
+    header_menu: Menu
+    no_aliases_yet: Aucun alias n'a été créé pour le moment.
+    aliases_number: '{0} Aucun alias | {1} %count% alias | ]1,Inf[ %count aliases'
+    button_add: Créer
+    button_synchronize: Synchroniser
   form:
   add:
     title: Création - Aliases - Apache

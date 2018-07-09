@@ -114,9 +114,13 @@ class FragmentsController extends Controller
             'apache_aliases',
             [
                 'label'  => 'Aliases',
-                'uri'    => '#',
+                'uri'    => $this->generateUrl('apache_aliases_list'),
                 'extras' => [
-                    'routes'    => [],
+                    'routes'    => [
+                        'apache_aliases_list',
+                        'apache_aliases_add',
+                        'apache_aliases_edit',
+                    ],
                     'left-icon' => 'fas fa-angle-right',
                 ],
             ]

@@ -1,0 +1,98 @@
+{% extends 'layout.html.twig' %}
+
+{% block _title %}
+    {{ 'aliases.list.title'|trans({}, 'apache') }} - {{ parent() }}
+{% endblock %}
+
+{% block _header %}
+    <h1>
+        Aliases
+        <small>Apache</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            Apache
+        </li>
+        <li class="active">
+            <a href="{{ path('apache_aliases_list') }}">
+                Aliases
+            </a>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block _body %}
+    <div class="table-header">
+        <a href="{{ path('apache_aliases_add') }}" class="btn btn-primary">
+            {{- 'aliases.list.button_add'|trans({}, 'apache') -}}
+        </a>
+        <button type="button" class="btn btn-primary">
+            {{- 'aliases.list.button_synchronize'|trans({}, 'apache') -}}
+        </button>
+        <span>
+            {{- 'aliases.list.aliases_number'|transchoice(total, {}, 'apache') -}}
+        </span>
+    </div>
+    <div class="box box-solid">
+        <div class="box-body table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            {{ 'aliases.list.header_name'|trans({}, 'apache') }}
+                        </th>
+                        <th>
+                            {{ 'aliases.list.header_description'|trans({}, 'apache') }}
+                        </th>
+                        <th>
+                            {{ 'aliases.list.header_url'|trans({}, 'apache') }}
+                        </th>
+                        <th class="text-center">
+                            {{ 'aliases.list.header_menu'|trans({}, 'apache') }}
+                        </th>
+                        <th style="width: 70px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="list-virtual-hosts">
+                    {% for alias in aliases %}
+                        <tr>
+                            <td>
+                                {{ alias.name }}
+                            </td>
+                            <td>
+                                {{ alias.description|truncate(100) }}
+                            </td>
+                            <td>
+                                <a href="{{ alias.url }}">
+                                    {{ alias.url }}
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('apache_aliases_toggle_hidden', {id: alias.id}) }}" data-action="toggle-hidden">
+                                    <i class="fas fa-{{ alias.hidden ? 'eye-slash' : 'eye' }}"></i>
+                                </a>
+                            </td>
+                            <td class="column-actions">
+                                {%- spaceless -%}
+                                    <a href="{{ path('apache_aliases_edit', {id: alias.id}) }}">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a href="{{ path('apache_aliases_delete', {id: alias.id}) }}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                {%- endspaceless -%}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                {{ 'aliases.list.no_aliases_yet'|trans({}, 'apache') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{ pagination('apache_aliases_list', {}, currentPage, pagesNumber) }}
+{% endblock %}

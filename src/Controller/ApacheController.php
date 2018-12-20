@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Alias;
 use App\Entity\VirtualHost;
+use App\Form\AliasType;
 use App\Form\VirtualHostType;
 use App\Tools\PaginationTools;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ApacheController
@@ -18,7 +20,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @author Bruno Buiret <bruno.buiret@gmail.com>
  * @Route("/apache", name="apache_")
  */
-class ApacheController extends Controller
+class ApacheController extends AbstractController
 {
     protected const VIRTUAL_HOSTS_PER_PAGE = 20;
     protected const ALIASES_PER_PAGE = 20;
@@ -32,6 +34,7 @@ class ApacheController extends Controller
     public function modules(): Response
     {
         // Initialize vars
+        /** @noinspection PhpComposerExtensionStubsInspection */
         $availableModules = function_exists('apache_get_modules') ? apache_get_modules() : [];
         $modules = [];
 
@@ -90,7 +93,7 @@ class ApacheController extends Controller
      * Displays and handles a form to add a new virtual host.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/virtual-hosts/add", methods={"GET", "POST"}, name="virtual_hosts_add")
      */
@@ -136,7 +139,7 @@ class ApacheController extends Controller
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $id The virtual host's id.
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/virtual-hosts/edit/{id}", methods={"GET", "POST"}, requirements={"id"="\d+"}, name="virtual_hosts_edit")
      */
@@ -266,15 +269,22 @@ class ApacheController extends Controller
      */
     public function aliasesList(Request $request): Response
     {
+        /** @var \App\Repository\AliasRepository $repository */
+        $repository = $this->getDoctrine()->getRepository(Alias::class);
         $paginationTools = new PaginationTools(
             $request->query->getInt('page', 1),
-            0
+            $repository->count([])
         );
 
         return $this->render(
             'apache/aliases/list.html.twig',
             [
-                'aliases'     => [],
+                'aliases'     => $repository->findBy(
+                    [],
+                    ['name' => 'ASC'],
+                    $paginationTools->getItemsPerPageNumber(),
+                    $paginationTools->getOffset()
+                ),
                 'total'       => $paginationTools->getItemsNumber(),
                 'currentPage' => $paginationTools->getCurrentPage(),
                 'pagesNumber' => $paginationTools->getPagesNumber(),
@@ -286,11 +296,45 @@ class ApacheController extends Controller
      * Displays and handles a form to add a new alias.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/aliases/add", methods={"GET", "POST"}, name="aliases_add")
      */
-    public function addAlias(Request $request): Response
+    public function addAlias(Request $request, TranslatorInterface $translator): Response
     {
+        // Initialize form
+        $alias = new Alias();
+        $form = $this->createForm(
+            AliasType::class,
+            $alias,
+            [
+                'method'             => 'post',
+                'action'             => $this->generateUrl('apache_aliases_add'),
+                'translation_domain' => 'apache',
+            ]
+        );
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($alias);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le nouvel alias "'.$alias->getName().'" a été créé.');
+
+            return $this->redirectToRoute('apache_aliases_list');
+        }
+
+        return $this->render(
+            'apache/aliases/form.html.twig',
+            [
+                'form'   => $form->createView(),
+                'title'  => $translator->trans('aliases.add.title', [], 'apache'),
+                'action' => $translator->trans('aliases.add.button_add', [], 'apache'),
+                'reset'  => $translator->trans('aliases.add.button_reset', [], 'apache'),
+            ]
+        );
     }
 
     /**
@@ -301,8 +345,54 @@ class ApacheController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/aliases/edit/{id}", methods={"GET", "POST"}, requirements={"id"="\d+"}, name="aliases_edit")
      */
-    public function editAlias(Request $request, int $id): Response
+    public function editAlias(Request $request, int $id, TranslatorInterface $translator): Response
     {
+        // Initialize vars
+        /** @var \App\Repository\AliasRepository $repository */
+        $repository = $this->getDoctrine()->getRepository(Alias::class);
+        /** @var \App\Entity\Alias $alias */
+        $alias = $repository->findOneBy(['id' => $id]);
+
+        if(null === $alias)
+        {
+            throw $this->createNotFoundException(sprintf(
+                'No alias found for id #%u.',
+                $id
+            ));
+        }
+
+        // Initialize form
+        $form = $this->createForm(
+            AliasType::class,
+            $alias,
+            [
+                'method'             => 'post',
+                'action'             => $this->generateUrl('apache_aliases_edit', ['id' => $id]),
+                'translation_domain' => 'apache',
+            ]
+        );
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($alias);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'L\'alias "'.$alias->getName().'" a été édité.');
+
+            return $this->redirectToRoute('apache_aliases_list');
+        }
+
+        return $this->render(
+            'apache/aliases/form.html.twig',
+            [
+                'form'   => $form->createView(),
+                'title'  => $translator->trans('aliases.edit.title', [], 'apache'),
+                'action' => $translator->trans('aliases.edit.button_add', [], 'apache'),
+                'reset'  => $translator->trans('aliases.edit.button_reset', [], 'apache'),
+            ]
+        );
     }
 
     /**
@@ -314,6 +404,27 @@ class ApacheController extends Controller
      */
     public function deleteAlias(int $id): Response
     {
+        // Initialize vars
+        /** @var \App\Repository\AliasRepository $repository */
+        $repository = $this->getDoctrine()->getRepository(Alias::class);
+        /** @var \App\Entity\Alias $alias */
+        $alias = $repository->findOneBy(['id' => $id]);
+
+        if(null === $alias)
+        {
+            throw $this->createNotFoundException(sprintf(
+                'No alias found for id #%u.',
+                $id
+            ));
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($alias);
+        $manager->flush();
+
+        $this->addFlash('success', 'L\'alias "'.$alias->getName().'" a été supprimé.');
+
+        return $this->redirectToRoute('apache_aliases_list');
     }
 
     /**
@@ -321,9 +432,31 @@ class ApacheController extends Controller
      *
      * @param int $id The alias' id.
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/aliases/toggle-hidden/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="aliases_delete")
+     * @Route("/aliases/toggle-hidden/{id}", methods={"POST"}, requirements={"id"="\d+"}, name="aliases_toggle_hidden")
      */
     public function toggleAliasHidden(int $id): Response
     {
+        // Initialize vars
+        /** @var \App\Repository\AliasRepository $repository */
+        $repository = $this->getDoctrine()->getRepository(Alias::class);
+        /** @var \App\Entity\Alias $alias */
+        $alias = $repository->findOneBy(['id' => $id]);
+
+        if(null === $alias)
+        {
+            throw $this->createNotFoundException(sprintf(
+                'No alias found for id #%u.',
+                $id
+            ));
+        }
+
+        // Toggle hidden status
+        $alias->setHidden(!$alias->isHidden());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($alias);
+        $entityManager->flush();
+
+        return $this->json(['hidden' => $alias->isHidden()]);
     }
 }

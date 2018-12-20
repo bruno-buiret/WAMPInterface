@@ -39,14 +39,27 @@ aliases:
     header_name: Nom
     header_description: Description
     header_url: URL
+    header_path: Chemin
     header_menu: Menu
     no_aliases_yet: Aucun alias n'a été créé pour le moment.
-    aliases_number: '{0} Aucun alias | {1} %count% alias | ]1,Inf[ %count aliases'
+    aliases_number: '{0} Aucun alias | {1} %count% alias | ]1,Inf[ %count% aliases'
     button_add: Créer
     button_synchronize: Synchroniser
   form:
+    label_name: Nom
+    label_description: Description
+    label_url: URL
+    label_path: Chemin
+    label_hidden: Caché dans le menu
+    label_no: Non
+    label_yes: Oui
+    button_back: Retour
   add:
     title: Création - Aliases - Apache
+    button_add: Créer
+    button_reset: Tout effacer
   edit:
     title: Édition - Aliases - Apache
+    button_add: Éditer
+    button_reset: Réinitialiser
   delete:

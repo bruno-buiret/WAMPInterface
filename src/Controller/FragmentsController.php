@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Alias;
 use App\Entity\VirtualHost;
 use App\Menu\Renderer\TreeRenderer;
 use DOMDocument;
@@ -259,10 +260,14 @@ class FragmentsController extends Controller
             ]
         );
 
+        $this->buildAliases($rootNode);
+
         return new Response($treeRenderer->render($rootNode));
     }
 
     /**
+     * Renders the virtual hosts list in the sidebar.
+     *
      * @param \Knp\Menu\MenuFactory $menuFactory
      * @param \App\Menu\Renderer\TreeRenderer $treeRenderer
      * @return \Symfony\Component\HttpFoundation\Response
@@ -285,6 +290,8 @@ class FragmentsController extends Controller
     }
 
     /**
+     * Render the aliases list in the sidebar.
+     *
      * @param \Knp\Menu\MenuFactory $menuFactory
      * @param \App\Menu\Renderer\TreeRenderer $treeRenderer
      * @return \Symfony\Component\HttpFoundation\Response
@@ -292,11 +299,24 @@ class FragmentsController extends Controller
      */
     public function aliases(MenuFactory $menuFactory, TreeRenderer $treeRenderer)
     {
-        return new Response('');
+        // Initialize vars
+        $document = new DOMDocument();
+        $rootNode = $menuFactory->createItem('menu');
+
+        // Build virtual hosts list
+        $this->buildAliases($rootNode);
+        $document->loadHTML($treeRenderer->render($rootNode));
+
+        return new Response($this->getInnerHtml(
+            $document,
+            $document->getElementsByTagName('ul')->item(0)
+        ));
     }
 
     /**
-     * @param \Knp\Menu\ItemInterface $rootNode
+     * Builds the virtual hosts list.
+     *
+     * @param \Knp\Menu\ItemInterface $rootNode The menu's root node.
      */
     protected function buildVirtualHosts(ItemInterface $rootNode)
     {
@@ -319,16 +339,36 @@ class FragmentsController extends Controller
     }
 
     /**
-     * @param \Knp\Menu\ItemInterface $rootNode
+     * Builds the aliases list.
+     *
+     * @param \Knp\Menu\ItemInterface $rootNode The menu's root node.
      */
     protected function buildAliases(ItemInterface $rootNode)
     {
+        $repository = $this->getDoctrine()->getRepository(Alias::class);
+        $aliases = $repository->findBy(['hidden' => false], ['name' => 'ASC']);
+
+        foreach($aliases as $alias)
+        {
+            $rootNode->addChild(
+                'alias_'.$alias->getId(),
+                [
+                    'label'  => $alias->getName(),
+                    'uri'    => $alias->getUrl(),
+                    'extras' => [
+                        'left-icon' => 'fas fa-angle-right',
+                    ],
+                ]
+            );
+        }
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param \DOMNode $node
-     * @return string
+     * Simulates the innerHTML DOM property.
+     *
+     * @param \DOMDocument $document The document.
+     * @param \DOMNode $node The node.
+     * @return string The node's inner HTML.
      */
     protected function getInnerHtml(DOMDocument $document, DOMNode $node)
     {

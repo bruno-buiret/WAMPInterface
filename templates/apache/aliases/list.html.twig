@@ -47,13 +47,16 @@
                         <th>
                             {{ 'aliases.list.header_url'|trans({}, 'apache') }}
                         </th>
+                        <th>
+                            {{ 'aliases.list.header_path'|trans({}, 'apache') }}
+                        </th>
                         <th class="text-center">
                             {{ 'aliases.list.header_menu'|trans({}, 'apache') }}
                         </th>
                         <th style="width: 70px;"></th>
                     </tr>
                 </thead>
-                <tbody id="list-virtual-hosts">
+                <tbody id="list-aliases">
                     {% for alias in aliases %}
                         <tr>
                             <td>
@@ -66,6 +69,9 @@
                                 <a href="{{ alias.url }}">
                                     {{ alias.url }}
                                 </a>
+                            </td>
+                            <td>
+                                {{ alias.path }}
                             </td>
                             <td class="text-center">
                                 <a href="{{ path('apache_aliases_toggle_hidden', {id: alias.id}) }}" data-action="toggle-hidden">
@@ -95,4 +101,56 @@
         </div>
     </div>
     {{ pagination('apache_aliases_list', {}, currentPage, pagesNumber) }}
+{% endblock %}
+
+{% block _scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.min.js"></script>
+    <script>
+        $(() => {
+            // Initialize vars
+            let $aliasesList = $('#list-aliases');
+            let $aliasesHeader = $('#header-aliases');
+            let updateSidebar = _.debounce(() => {
+                $.ajax({
+                    method: 'get',
+                    url: {{ path('fragments_aliases')|json_encode|raw }}
+                }).then(
+                    (response) => {
+                        $aliasesHeader.nextUntil('.header').remove();
+                        $aliasesHeader.after(response);
+                    }
+                );
+            }, 500);
+
+            $aliasesList.on('click', '[data-action="toggle-hidden"]', function(event) {
+                // Prevent default behavior
+                event.preventDefault();
+                event.stopPropagation();
+
+                // Initialize vars
+                let $this = $(this);
+                let $icon = $this.find('i');
+                let originalClasses = $icon.attr('class');
+
+                //
+                $icon.removeClass('fa-eye fa-eye-slash').addClass('fa-sync fa-spin');
+
+                $.ajax({
+                    method: 'post',
+                    url: $this.attr('href')
+                }).then(
+                    (response) => {
+                        $icon
+                            .removeClass('fa-sync fa-spin')
+                            .addClass(response.hidden ? 'fa-eye-slash' : 'fa-eye')
+                        ;
+                        updateSidebar();
+                    },
+                    () => {
+                        $icon.attr('class', originalClasses);
+                    }
+                );
+            });
+        });
+    </script>
 {% endblock %}

@@ -145,7 +145,7 @@
                 let originalClasses = $icon.attr('class');
 
                 //
-                $icon.removeClass('fa-eye fa-eye-slash').addClass('fa-refresh fa-spin');
+                $icon.removeClass('fa-eye fa-eye-slash').addClass('fa-sync fa-spin');
 
                 $.ajax({
                     method: 'post',
@@ -153,7 +153,7 @@
                 }).then(
                     (response) => {
                         $icon
-                            .removeClass('fa-refresh fa-spin')
+                            .removeClass('fa-sync fa-spin')
                             .addClass(response.hidden ? 'fa-eye-slash' : 'fa-eye')
                         ;
                         updateSidebar();

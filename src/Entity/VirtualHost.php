@@ -54,7 +54,7 @@ class VirtualHost
     protected $ssl;
 
     /**
-     * @var bool
+     * @var bool The virtual host's hidden status.
      * @ORM\Column(name="`hidden`", type="boolean", options={"default": false})
      */
     protected $hidden;
@@ -81,7 +81,7 @@ class VirtualHost
 
     /**
      * @param int $id
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setId(int $id): VirtualHost
     {
@@ -100,7 +100,7 @@ class VirtualHost
 
     /**
      * @param string $name
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setName(string $name): VirtualHost
     {
@@ -119,7 +119,7 @@ class VirtualHost
 
     /**
      * @param string $description
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setDescription(?string $description): VirtualHost
     {
@@ -138,7 +138,7 @@ class VirtualHost
 
     /**
      * @param string $host
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setHost(string $host): VirtualHost
     {
@@ -157,7 +157,7 @@ class VirtualHost
 
     /**
      * @param int $port
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setPort(int $port): VirtualHost
     {
@@ -176,7 +176,7 @@ class VirtualHost
 
     /**
      * @param bool $ssl
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setSsl(bool $ssl): VirtualHost
     {
@@ -208,7 +208,7 @@ class VirtualHost
 
     /**
      * @param bool $hidden
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setHidden(bool $hidden): VirtualHost
     {
@@ -227,7 +227,7 @@ class VirtualHost
 
     /**
      * @param \DateTime $createdAt
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setCreatedAt(DateTime $createdAt): VirtualHost
     {
@@ -246,7 +246,7 @@ class VirtualHost
 
     /**
      * @param \DateTime|null $lastUpdatedAt
-     * @return \App\Entity\VirtualHost This virtual host.
+     * @return self This virtual host.
      */
     public function setLastUpdatedAt(?DateTime $lastUpdatedAt): VirtualHost
     {

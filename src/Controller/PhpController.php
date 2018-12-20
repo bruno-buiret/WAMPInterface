@@ -6,6 +6,7 @@ use DOMDocument;
 use DOMXPath;
 use ReflectionExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -110,6 +111,20 @@ class PhpController extends Controller
         // Initialize vars
         $extensions = [];
         $extensionNames = get_loaded_extensions();
+        $finder = (new Finder())
+            ->in(ini_get('extension_dir'))
+            ->files()
+        ;
+        $availableExtensions = [];
+        $fullList = [];
+
+        foreach($finder as $file)
+        {
+            /** @var \SplFileInfo $file */
+            preg_match('/(?:php_)?(?P<name>[a-z0-9_]+)\\./i', $file->getFilename(), $matches);
+            $availableExtensions[$matches['name']] = true;
+            $fullList[$matches['name']] = ['file' => true];
+        }
 
         foreach($extensionNames as $extensionName)
         {
@@ -154,14 +169,25 @@ class PhpController extends Controller
 
             ksort($extensionData['functions']);
             ksort($extensionData['classes']);
-            $extensions[] = $extensionData;
+            $extensions[$extensionData['name']] = $extensionData;
+
+            if(!isset($fullList[$extensionData['name']]))
+            {
+                $fullList[$extensionData['name']] = [];
+            }
+
+            $fullList[$extensionData['name']]['loaded'] = true;
         }
+
+        uksort($extensions, 'strcasecmp');
+        uksort($fullList, 'strcasecmp');
 
         return $this->render(
             'php/extensions.html.twig',
             [
                 '_classes'   => ['php-extensions'],
                 'extensions' => $extensions,
+                'fullList'   => $fullList,
             ]
         );
     }

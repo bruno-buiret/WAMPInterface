@@ -26,10 +26,14 @@
         <div class="box box-solid">
             <div class="box-body">
                 <ul class="list-columns with-icon">
-                    {% for extension in extensions %}
+                    {% for extension, settings in fullList %}
                         <li>
                             <i class="fas fa-cube"></i>{#--#}
-                            <a href="#extension-{{ extension.slug }}">{{ extension.name }}</a>
+                            {% if settings.loaded is defined %}
+                                <a href="#extension-{{ extensions[extension].slug }}">{{ extensions[extension].name }}</a>
+                            {% else %}
+                                {{ extension }}
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>

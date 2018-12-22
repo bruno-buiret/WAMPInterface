@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Alias;
 use App\Entity\VirtualHost;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
@@ -48,9 +49,8 @@ class CommonController extends Controller
         /** @var \App\Repository\VirtualHostRepository $repository */
         $repository = $this->getDoctrine()->getRepository(VirtualHost::class);
         $virtualHostsNumber = $repository->count([]);
-        // $repository = $this->getDoctrine()->getRepository(Alias::class);
-        // $aliasesNumber = $repository->count([]);
-        $aliasesNumber = 0;
+        $repository = $this->getDoctrine()->getRepository(Alias::class);
+        $aliasesNumber = $repository->count([]);
 
         return $this->render(
             'common/dashboard.html.twig',

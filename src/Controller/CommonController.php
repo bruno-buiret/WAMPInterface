@@ -65,7 +65,8 @@ class CommonController extends AbstractController
                     'aliasesNumber'      => $aliasesNumber,
                 ],
                 'php'        => [
-                    'version' => $configuration['php']['phpVersion'] ?? null,
+                    'version'           => $configuration['php']['phpVersion'] ?? null,
+                    'configurationPath' => php_ini_loaded_file(),
                 ],
                 'mysql'      => [
                     'version' => $configuration['mysql']['mysqlVersion'] ?? null,

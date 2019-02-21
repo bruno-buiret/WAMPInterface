@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Alias;
 use App\Entity\VirtualHost;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Bruno Buiret <bruno.buiret@gmail.com>
  * @Route(name="common_")
  */
-class CommonController extends Controller
+class CommonController extends AbstractController
 {
     /**
      * Displays the main page with information about the current system.

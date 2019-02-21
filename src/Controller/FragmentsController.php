@@ -9,10 +9,10 @@ use DOMDocument;
 use DOMNode;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class FragmentsController
@@ -21,14 +21,14 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @author Bruno Buiret <bruno.buiret@gmail.com>
  * @Route(name="fragments_")
  */
-class FragmentsController extends Controller
+class FragmentsController extends AbstractController
 {
     /**
      * Renders the sidebar menu.
      *
      * @param \Knp\Menu\MenuFactory $menuFactory
      * @param \App\Menu\Renderer\TreeRenderer $treeRenderer
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("fragments/menu", methods={"GET"}, requirements={"host"="127.0.0.1"}, name="menu")
      */
@@ -276,12 +276,18 @@ class FragmentsController extends Controller
     public function virtualHosts(MenuFactory $menuFactory, TreeRenderer $treeRenderer)
     {
         // Initialize vars
-        $document = new DOMDocument();
+        $document = new DOMDocument('1.0', 'utf-8');
         $rootNode = $menuFactory->createItem('menu');
 
         // Build virtual hosts list
         $this->buildVirtualHosts($rootNode);
-        $document->loadHTML($treeRenderer->render($rootNode));
+        $document->loadHTML(
+            '<!DOCTYPE html><html lang="en-US">'.
+            '<head><meta charset="utf-8"/><title></title></head>'.
+            '<body>'.$treeRenderer->render($rootNode).'</body>'.
+            '</html>',
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+        );
 
         return new Response($this->getInnerHtml(
             $document,
@@ -300,12 +306,18 @@ class FragmentsController extends Controller
     public function aliases(MenuFactory $menuFactory, TreeRenderer $treeRenderer)
     {
         // Initialize vars
-        $document = new DOMDocument();
+        $document = new DOMDocument('1.0', 'utf-8');
         $rootNode = $menuFactory->createItem('menu');
 
         // Build virtual hosts list
         $this->buildAliases($rootNode);
-        $document->loadHTML($treeRenderer->render($rootNode));
+        $document->loadHTML(
+            '<!DOCTYPE html><html lang="en-US">'.
+            '<head><meta charset="utf-8"/><title></title></head>'.
+            '<body>'.$treeRenderer->render($rootNode).'</body>'.
+            '</html>',
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+        );
 
         return new Response($this->getInnerHtml(
             $document,

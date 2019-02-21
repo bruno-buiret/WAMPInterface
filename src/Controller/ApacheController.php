@@ -22,9 +22,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ApacheController extends AbstractController
 {
-    protected const VIRTUAL_HOSTS_PER_PAGE = 20;
-    protected const ALIASES_PER_PAGE = 20;
-
     /**
      * Displays Apache's loaded modules.
      *
@@ -342,6 +339,7 @@ class ApacheController extends AbstractController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $id The alias' id.
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/aliases/edit/{id}", methods={"GET", "POST"}, requirements={"id"="\d+"}, name="aliases_edit")
      */

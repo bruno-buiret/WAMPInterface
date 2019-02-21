@@ -5,7 +5,7 @@ namespace App\Controller;
 use DOMDocument;
 use DOMXPath;
 use ReflectionExtension;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Bruno Buiret <bruno.buiret@gmail.com>
  * @Route("/php", name="php_")
  */
-class PhpController extends Controller
+class PhpController extends AbstractController
 {
     /**
      * Displays PHP's settings.

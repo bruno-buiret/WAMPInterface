@@ -29,75 +29,78 @@ const browsers = [
     'Opera >= 30'
 ];
 
-// Tasks
+// Stylesheets
 gulp.task(
     'stylesheets:build',
-    () => {
-        vfs
-            .src(assetsPath + 'stylesheets/wamp-interface.scss')
-            .pipe(sourceMaps.init())
-            .pipe(sass().on('error', sass.logError))
-            .pipe(autoprefixer({browsers: browsers}))
-            .pipe(cleanCSS(
-                {
-                    compatibility: 'ie9',
-                    level: 2,
-                    debug: true
-                },
-                (details) => {
-                    console.log(details.name + ': ' + details.stats.originalSize + ' -> ' + details.stats.minifiedSize);
-                }
-            ))
-            .pipe(rename({suffix: '.min'}))
-            .pipe(sourceMaps.write('.'))
-            .pipe(vfs.dest(assetsPath + 'build/stylesheets/'))
-        ;
-    }
+    () => gulp
+        .src(assetsPath + 'stylesheets/wamp-interface.scss')
+        .pipe(sourceMaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({browsers: browsers}))
+        .pipe(cleanCSS(
+            {
+                compatibility: 'ie9',
+                level: 2,
+                debug: true
+            },
+            (details) => {
+                console.log(details.name + ': ' + details.stats.originalSize + ' -> ' + details.stats.minifiedSize);
+            }
+        ))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(sourceMaps.write('.'))
+        .pipe(gulp.dest(assetsPath + 'build/stylesheets/'))
 );
 
 gulp.task(
     'stylesheets:watch',
-    () => {
+    (done) => {
         gulp.watch(
             assetsPath + 'stylesheets/wamp-interface.scss',
-            ['stylesheets:build']
+            gulp.series('stylesheets:build')
         );
+        done();
     }
 );
 
+// Scripts
 gulp.task(
     'scripts:build',
-    () => {
-
+    (done) => {
+        done();
     }
 );
 
 gulp.task(
     'scripts:watch',
-    () => {
-
+    (done) => {
+        done();
     }
 );
 
+// Symlinks
 gulp.task(
     'assets:symlink',
-    () => {
-        vfs
-            .src([
-                assetsPath + 'build/stylesheets/*.css',
-                assetsPath + 'build/stylesheets/*.css.map'
-            ])
-            .pipe(vfs.symlink(publicPath + 'stylesheets/'))
-        ;
-    }
+    () => gulp
+        .src([
+            assetsPath + 'build/stylesheets/*.css',
+            assetsPath + 'build/stylesheets/*.css.map'
+        ])
+        .pipe(vfs.symlink(publicPath + 'stylesheets/'))
 );
 
+//
 gulp.task(
     'build',
-    ['stylesheets:build', 'scripts:build']
+    gulp.parallel('stylesheets:build', 'scripts:build')
 );
 
 gulp.task(
     'watch',
-    ['stylesheets:watch', 'scripts:watch']
+    gulp.parallel('stylesheets:watch', 'scripts:watch')
+);
+
+gulp.task(
+    'default',
+    gulp.series('build', 'watch')
 );

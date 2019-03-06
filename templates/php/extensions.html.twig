@@ -128,7 +128,7 @@
                 </div>
                 <div class="tab-pane" id="{{ extension.slug }}-functions">
                     {% if extension.functions|length > 0 %}
-                        <ul class="list-columns list-md">
+                        <ul class="list-columns">
                             {% for name, url in extension.functions %}
                                 <li>
                                     <a href="{{ url }}">{{ name }}</a>
@@ -141,7 +141,7 @@
                 </div>
                 <div class="tab-pane" id="{{ extension.slug }}-classes">
                     {% if extension.classes|length > 0 %}
-                        <ul class="list-columns list-md">
+                        <ul class="list-columns">
                             {% for name, url in extension.classes %}
                                 <li>
                                     <a href="{{ url }}">{{ name }}</a>

@@ -1,0 +1,52 @@
+{% extends 'layout.html.twig' %}
+
+{% block _title %}
+    {{ title }} - {{ parent() }}
+{% endblock %}
+
+{% block _header %}
+    <h1>
+        Raccourcis
+        <small>Tableau de bord</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ path('common_dashboard') }}">
+                Tableau de bord
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('common_shortcuts_list') }}">
+                Raccourcis
+            </a>
+        </li>
+        <li class="active">
+            <a href="{{ form.vars.action }}">
+                {{ action }}
+            </a>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block _body %}
+    <div class="box box-solid">
+        <div class="box-body">
+            {{ form_start(form) }}
+            {{ form_rest(form) }}
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-success">
+                        {{ action }}
+                    </button>
+                    <button type="reset" class="btn btn-warning">
+                        {{ reset }}
+                    </button>
+                    <a href="{{ path('common_shortcuts_list') }}" class="btn btn-default">
+                        {{ 'shortcuts.form.button_back'|trans({}, 'common') }}
+                    </a>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -55,6 +55,21 @@ class FragmentsController extends AbstractController
                 ],
             ]
         );
+        $rootNode->addChild(
+            'shortcuts',
+            [
+                'label'  => 'Raccourcis',
+                'uri'    => $this->generateUrl('common_shortcuts_list'),
+                'extras' => [
+                    'routes'    => [
+                        'common_shortcuts_list',
+                        'common_shortcuts_add',
+                        'common_shortcuts_edit',
+                    ],
+                    'left-icon' => 'fas fa-share',
+                ],
+            ]
+        );
 
         $rootNode->addChild(
             'header_server',

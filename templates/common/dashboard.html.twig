@@ -142,4 +142,24 @@
             </div>
         </div>
     </div>
+    {% if shortcuts|length > 0 %}
+        <h2 class="h4">Raccourcis</h2>
+        <div class="row shortcuts-container">
+            {% for shortcut in shortcuts %}
+                {% if loop.index0 > 0 and 0 == loop.index0 % 2 %}
+                    <div class="clearfix visible-sm-block"></div>
+                {% endif %}
+                <div class="col-md-3 col-sm-6 col-xs-12" style="--color: {{ shortcut.color }}; --alternate-color: {{ color_yiq(shortcut.color, shortcut.color|lighten(25), shortcut.color|darken(25)) }}; --text-color: {{ color_yiq(shortcut.color) }};">
+                    <a class="info-box" href="{{ shortcut.url }}">
+                        <span class="info-box-icon"><i class="fas fa-share"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">{{- shortcut.subTitle -}}</span>
+                            <span class="info-box-number">{{- shortcut.title -}}</span>
+                            <span class="progress-description"></span>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

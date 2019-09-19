@@ -26,9 +26,6 @@
         <a href="{{ path('apache_virtual_hosts_add') }}" class="btn btn-primary">
             {{- 'virtual_hosts.list.button_add'|trans({}, 'apache') -}}
         </a>
-        <button type="button" class="btn btn-primary">
-            {{- 'virtual_hosts.list.button_synchronize'|trans({}, 'apache') -}}
-        </button>
         <span>
             {{- 'virtual_hosts.list.virtual_hosts_number'|transchoice(total, {}, 'apache') -}}
         </span>

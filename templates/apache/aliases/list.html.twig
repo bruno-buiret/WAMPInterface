@@ -26,9 +26,6 @@
         <a href="{{ path('apache_aliases_add') }}" class="btn btn-primary">
             {{- 'aliases.list.button_add'|trans({}, 'apache') -}}
         </a>
-        <button type="button" class="btn btn-primary">
-            {{- 'aliases.list.button_synchronize'|trans({}, 'apache') -}}
-        </button>
         <span>
             {{- 'aliases.list.aliases_number'|transchoice(total, {}, 'apache') -}}
         </span>

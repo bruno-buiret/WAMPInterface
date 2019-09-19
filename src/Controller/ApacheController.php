@@ -138,7 +138,7 @@ class ApacheController extends AbstractController
      * @param int $id The virtual host's id.
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/virtual-hosts/edit/{id}", methods={"GET", "POST"}, requirements={"id"="\d+"}, name="virtual_hosts_edit")
+     * @Route("/virtual-hosts/{id<\d+>}/edit", methods={"GET", "POST"}, name="virtual_hosts_edit")
      */
     public function editVirtualHost(Request $request, int $id, TranslatorInterface $translator): Response
     {
@@ -195,7 +195,7 @@ class ApacheController extends AbstractController
      *
      * @param int $id The virtual host's id.
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/virtual-hosts/delete/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="virtual_hosts_delete")
+     * @Route("/virtual-hosts/{id<\d+>}/delete", methods={"GET"}, name="virtual_hosts_delete")
      */
     public function deleteVirtualHost(int $id): Response
     {
@@ -227,7 +227,7 @@ class ApacheController extends AbstractController
      *
      * @param int $id The virtual host's id.
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/virtual-hosts/toggle-hidden/{id}", methods={"POST"}, requirements={"id"="\d+"}, name="virtual_hosts_toggle_hidden")
+     * @Route("/virtual-hosts/{id<\d+>}/toggle-hidden", methods={"POST"}, name="virtual_hosts_toggle_hidden")
      */
     public function toggleVirtualHostHidden(int $id): Response
     {
@@ -341,7 +341,7 @@ class ApacheController extends AbstractController
      * @param int $id The alias' id.
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/aliases/edit/{id}", methods={"GET", "POST"}, requirements={"id"="\d+"}, name="aliases_edit")
+     * @Route("/aliases/{id<\d+>}/edit", methods={"GET", "POST"}, name="aliases_edit")
      */
     public function editAlias(Request $request, int $id, TranslatorInterface $translator): Response
     {
@@ -398,7 +398,7 @@ class ApacheController extends AbstractController
      *
      * @param int $id The alias' id.
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/aliases/delete/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="aliases_delete")
+     * @Route("/aliases/{id<\d+>}/delete", methods={"GET"}, name="aliases_delete")
      */
     public function deleteAlias(int $id): Response
     {
@@ -430,7 +430,7 @@ class ApacheController extends AbstractController
      *
      * @param int $id The alias' id.
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/aliases/toggle-hidden/{id}", methods={"POST"}, requirements={"id"="\d+"}, name="aliases_toggle_hidden")
+     * @Route("/aliases/{id<\d+>}/toggle-hidden", methods={"POST"}, name="aliases_toggle_hidden")
      */
     public function toggleAliasHidden(int $id): Response
     {

@@ -1,6 +1,22 @@
+$screen-xs-min: 480px;
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+$screen-xxs-max: ($screen-xs-min - 1);
+$screen-xs-max: ($screen-sm-min - 1);
+$screen-sm-max: ($screen-md-min - 1);
+$screen-md-max: ($screen-lg-min - 1);
+$color-primary: #337ab7;
+$color-success: #5cb85c;
+$color-info: #5bc0de;
+$color-warning: #f0ad4e;
+$color-danger: #d9534f;
+
+@import 'utilities';
+
 /* Layout */
 .main-header .sidebar-toggle::before {
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: bold;
 }
 
@@ -28,23 +44,50 @@
   margin-left: auto;
 }
 
+/* jGrowl */
+.jGrowl-notification {
+  &.success {
+    background-color: $color-success;
+  }
+
+  &.info{
+    background-color: $color-info;
+  }
+
+  &.warning {
+    background-color: $color-warning;
+  }
+
+  &.danger {
+    background-color: $color-danger;
+  }
+}
+
 /* Lists */
 .list-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-column-gap: 5px;
+  grid-template-rows: repeat(7, 1fr);
+  grid-auto-flow: column;
   padding: 0;
   list-style: none;
 
   li {
+    padding-right: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   // Sizes
+  &.list-md li {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  &.list-lg li {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
   &.with-icon li {
     > .fas:first-child,
-    > .far:first-child,
     > .fab:first-child {
       margin-right: 5px;
     }
@@ -64,7 +107,10 @@
 /* Tables */
 .table {
   thead {
-
+    .column-position {
+      width: 35px;
+      text-align: center;
+    }
   }
 
   tbody {
@@ -74,6 +120,19 @@
       a + a {
         margin-left: 10px;
       }
+    }
+
+    // Sortable
+    .column-position {
+      text-align: center;
+
+      .drag-handle {
+        cursor: grab;
+      }
+    }
+
+    &.sortable-disabled .column-position .drag-handle {
+      cursor: initial;
     }
   }
 }
@@ -86,6 +145,31 @@ form {
 
   textarea {
     resize: vertical;
+  }
+}
+
+/* Shortcuts */
+.shortcuts-container {
+  a {
+    color: inherit;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  .info-box {
+    background-color: var(--color);
+    color: var(--text-color);
+  }
+
+  .info-box-icon {
+    background-color: var(--alternate-color);
+  }
+
+  .info-box-text {
+    text-transform: none;
   }
 }
 
@@ -113,3 +197,15 @@ form {
   }
 }
 
+/* Miscellaneous */
+.color-container {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--color, #000000);
+}
+
+.sortable-disabled .column-position {
+  color: #ababab;
+}

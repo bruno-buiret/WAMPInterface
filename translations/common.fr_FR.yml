@@ -1,0 +1,27 @@
+dashboard:
+shortcuts:
+  list:
+    title: Raccourcis
+    button_add: Créer
+    shortcuts_number: '{0} Aucun raccourci | {1} %count% raccourci | ]1,Inf[ %count% raccourcis'
+    header_title: Titre
+    header_sub_title: Sous-titre
+    header_color: Couleur
+    header_icon: Icône
+    header_url: URL
+  form:
+    label_title: Titre
+    label_sub_title: Sous-titre
+    label_color: Couleur
+    label_icon: Icône
+    label_url: URL
+    button_back: Retour
+  add:
+    title: Création - Raccourcis - Tableau de bord
+    button_add: Créer
+    button_reset: Tout effacer
+  edit:
+    title: Édition - Raccourcis - Tableau de bord
+    button_add: Éditer
+    button_reset: Réinitialiser
+  delete:

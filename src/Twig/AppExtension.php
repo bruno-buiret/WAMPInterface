@@ -5,6 +5,7 @@ namespace App\Twig;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
@@ -60,6 +61,27 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('pagination', [$this, 'buildPagination'], ['is_safe' => ['html']]),
+            new TwigFunction('color_yiq', [$this, 'colorYiq']),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter(
+                'lighten',
+                function(string $color, int $amount): string
+                {
+                    return $this->modifyLightness($color, $amount);
+                }
+            ),
+            new TwigFilter(
+                'darken',
+                function(string $color, int $amount): string
+                {
+                    return $this->modifyLightness($color, -$amount);
+                }
+            ),
         ];
     }
 
@@ -301,15 +323,81 @@ class AppExtension extends AbstractExtension
     }
 
     /**
+     * Computes whether a dark or light color should be used according to another one.
+     *
+     * @param string $color The reference color.
+     * @param string $dark The dark color.
+     * @param string $light The light color.
+     * @return string The computed color.
+     */
+    public function colorYiq(string $color, string $dark = '#000000', string $light = '#ffffff'): string
+    {
+        $color = $this->toColorComponents($color);
+        $yiq = (($color['red'] * 299) + ($color['green'] * 587) + ($color['blue'] * 114)) / 1000;
+
+        return $yiq >= 150 ? $dark : $light;
+    }
+
+    /**
+     * Modifies a color's lightness.
+     *
+     * @param string $color The color.
+     * @param int $amount The amount to add or subtract.
+     * @return string The modified color.
+     * @see https://css-tricks.com/snippets/javascript/lighten-darken-color/
+     */
+    public function modifyLightness(string $color, int $amount): string
+    {
+        $color = $this->toColorComponents($color);
+        $color['red'] += $amount;
+        $color['green'] += $amount;
+        $color['blue'] += $amount;
+
+        foreach($color as &$value)
+        {
+            if($value > 255)
+            {
+                $value = 255;
+            }
+            elseif($value < 0)
+            {
+                $value = 0;
+            }
+
+            $value = mb_substr('0'.dechex($value), -2);
+        }
+
+        unset($value);
+
+        return '#'.$color['red'].$color['green'].$color['blue'];
+    }
+
+    // ---
+
+    /**
      * Utility method to generate a path.
      *
      * @param string $routeName The route's name.
      * @param array $parameters The route's parameters.
      * @return string The newly generated path.
      */
-    protected function generatePath(string $routeName, array $parameters = [])
+    protected function generatePath(string $routeName, array $parameters = []): string
     {
         return $this->urlGenerator->generate($routeName, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 
+    /**
+     * @param string $color
+     * @return int[]
+     */
+    protected function toColorComponents(string $color): array
+    {
+        $color = hexdec(mb_substr($color, 1));
+
+        return [
+            'red'   => $color >> 16,
+            'green' => ($color >> 8) & 0x00ff,
+            'blue'  => $color & 0x0000ff,
+        ];
+    }
 }

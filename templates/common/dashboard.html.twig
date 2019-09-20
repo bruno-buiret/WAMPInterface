@@ -151,7 +151,7 @@
                 {% endif %}
                 <div class="col-md-3 col-sm-6 col-xs-12" style="--color: {{ shortcut.color }}; --alternate-color: {{ color_yiq(shortcut.color, shortcut.color|lighten(25), shortcut.color|darken(25)) }}; --text-color: {{ color_yiq(shortcut.color) }};">
                     <a class="info-box" href="{{ shortcut.url }}">
-                        <span class="info-box-icon"><i class="fas fa-share"></i></span>
+                        <span class="info-box-icon"><i class="fas {{ shortcut.icon }}"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">{{- shortcut.subTitle -}}</span>
                             <span class="info-box-number">{{- shortcut.title -}}</span>

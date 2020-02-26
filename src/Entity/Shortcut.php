@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @package App\Entity
  * @author Bruno Buiret <bruno.buiret@gmail.com>
+ * @ORM\Table(name="shortcut")
  * @ORM\Entity(repositoryClass="Gedmo\Sortable\Entity\Repository\SortableRepository")
  * @ORM\EntityListeners({"App\EntityListener\TimestampableListener"})
  */
@@ -20,56 +21,56 @@ class Shortcut
      * @var int The shortcut's id.
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="`id`", type="integer")
      */
     protected $id;
 
     /**
      * @var string The shortcut's title.
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="`title`", type="string", length=255)
      */
     protected $title;
 
     /**
      * @var string The shortcut's sub title.
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="`sub_title`", type="string", length=255)
      */
     protected $subTitle;
 
     /**
      * @var string The shortcut's color.
-     * @ORM\Column(type="string", length=7)
+     * @ORM\Column(name="`color`", type="string", length=7)
      */
     protected $color;
 
     /**
      * @var string The shortcut's icon.
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(name="`icon`", type="string", length=100)
      */
     protected $icon;
 
     /**
      * @var string The shortcut's URL.
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="`url`", type="string", length=255)
      */
     protected $url;
 
     /**
      * @var int The shortcut's position.
-     * @ORM\Column(type="integer", options={"unsigned"})
+     * @ORM\Column(name="`position`", type="integer", options={"unsigned"})
      * @Gedmo\SortablePosition
      */
     protected $position;
 
     /**
      * @var \DateTime The alias' date of creation.
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="`created_at`", type="datetime")
      */
     protected $createdAt;
 
     /**
      * @var \DateTime|null The alias' date of last update.
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="`last_updated_at`", type="datetime", nullable=true)
      */
     protected $lastUpdatedAt;
 

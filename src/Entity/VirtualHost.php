@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package App\Entity
  * @author Bruno Buiret <bruno.buiret@gmail.com>
+ * @ORM\Table(name="virtual_host")
  * @ORM\Entity(repositoryClass="App\Repository\VirtualHostRepository")
  * @ORM\EntityListeners({"App\EntityListener\TimestampableListener"})
  */

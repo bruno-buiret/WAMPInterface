@@ -21,7 +21,7 @@ class Kernel extends BaseKernel
     const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getCacheDir()
     {
@@ -29,7 +29,7 @@ class Kernel extends BaseKernel
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getLogDir()
     {
@@ -37,7 +37,7 @@ class Kernel extends BaseKernel
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function registerBundles()
     {
@@ -53,7 +53,7 @@ class Kernel extends BaseKernel
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
@@ -72,7 +72,7 @@ class Kernel extends BaseKernel
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {

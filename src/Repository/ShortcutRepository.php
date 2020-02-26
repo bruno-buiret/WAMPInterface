@@ -3,9 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Shortcut;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method Shortcut|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,9 +14,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ShortcutRepository extends SortableRepository
 {
-    public function __construct(RegistryInterface $registry)
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct(ManagerRegistry $registry)
     {
-        $entityManager = $registry->getEntityManagerForClass(Shortcut::class);
+        $entityManager = $registry->getManagerForClass(Shortcut::class);
 
         parent::__construct($entityManager, $entityManager->getClassMetadata(Shortcut::class));
     }

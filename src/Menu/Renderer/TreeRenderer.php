@@ -40,9 +40,9 @@ class TreeRenderer extends ListRenderer
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function renderLabel(ItemInterface $item, array $options)
+    protected function renderLabel(ItemInterface $item, array $options): string
     {
         $label = '';
 
@@ -98,9 +98,9 @@ class TreeRenderer extends ListRenderer
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function renderSpanElement(ItemInterface $item, array $options)
+    protected function renderSpanElement(ItemInterface $item, array $options): string
     {
         if(!empty($item->getExtra('is_header')))
         {

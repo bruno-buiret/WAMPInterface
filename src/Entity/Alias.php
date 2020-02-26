@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package App\Entity
  * @author Bruno Buiret <bruno.buiret@gmail.com>
+ * @ORM\Table(name="alias")
  * @ORM\Entity(repositoryClass="App\Repository\AliasRepository")
  * @ORM\EntityListeners({"App\EntityListener\TimestampableListener"})
  */
@@ -19,48 +20,48 @@ class Alias
      * @var int The alias' id.
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="`id`", type="integer")
      */
     protected $id;
 
     /**
      * @var string The alias' name.
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="`name`", type="string", length=255)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(name="`description`", type="text", nullable=true)
      */
     protected $description;
 
     /**
      * @var string The alias' description.
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="`url`", type="string", length=255)
      */
     protected $url;
 
     /**
      * @var string The alias' path.
-     * @ORM\Column(type="text")
+     * @ORM\Column(name="`path`", type="text")
      */
     protected $path;
 
     /**
      * @var bool The alias' hidden status.
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="`hidden`", type="boolean")
      */
     protected $hidden;
 
     /**
      * @var \DateTime The alias' date of creation.
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="`created_at`", type="datetime")
      */
     protected $createdAt;
 
     /**
      * @var \DateTime|null The alias' date of last update.
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="`last_updated_at`", type="datetime", nullable=true)
      */
     protected $lastUpdatedAt;
 

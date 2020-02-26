@@ -27,7 +27,7 @@
             {{- 'aliases.list.button_add'|trans({}, 'apache') -}}
         </a>
         <span>
-            {{- 'aliases.list.aliases_number'|transchoice(total, {}, 'apache') -}}
+            {{- 'aliases.list.aliases_number'|trans({'%count%': total}, 'apache') -}}
         </span>
     </div>
     <div class="box box-solid">

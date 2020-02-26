@@ -3,7 +3,7 @@
 namespace App\Twig;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -35,7 +35,7 @@ class AppExtension extends AbstractExtension
      * AppExtension constructor.
      *
      * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator An URL generator.
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator A translator.
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator A translator.
      * @param string $previousText The key for the accessibility text for the previous page.
      * @param string $nextText The key for the accessibility text for the next page.
      * @param string $translationDomain
@@ -55,7 +55,7 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFunctions(): array
     {
@@ -65,6 +65,9 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFilters(): array
     {
         return [
@@ -387,8 +390,10 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @param string $color
-     * @return int[]
+     * Extracts a color's components.
+     *
+     * @param string $color An hexadecimal color.
+     * @return int[] The components.
      */
     protected function toColorComponents(string $color): array
     {

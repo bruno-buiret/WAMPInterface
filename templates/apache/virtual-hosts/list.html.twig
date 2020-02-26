@@ -27,7 +27,7 @@
             {{- 'virtual_hosts.list.button_add'|trans({}, 'apache') -}}
         </a>
         <span>
-            {{- 'virtual_hosts.list.virtual_hosts_number'|transchoice(total, {}, 'apache') -}}
+            {{- 'virtual_hosts.list.virtual_hosts_number'|trans({'%count%': total}, 'apache') -}}
         </span>
     </div>
     <div class="box box-solid">

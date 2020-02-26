@@ -16,6 +16,7 @@ class TimestampableListener
      * Dynamically sets the entity's date of creation if it hasn't been.
      *
      * @param mixed $entity The entity being persisted.
+     * @throws \Exception If an error happens.
      */
     public function prePersist($entity)
     {
@@ -29,6 +30,7 @@ class TimestampableListener
      * Dynamically sets the entity's date of last update.
      *
      * @param mixed $entity The entity being updated.
+     * @throws \Exception If an error happens.
      */
     public function preUpdate($entity)
     {

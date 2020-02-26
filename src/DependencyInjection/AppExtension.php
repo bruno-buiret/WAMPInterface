@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
 class AppExtension extends BaseExtension
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
